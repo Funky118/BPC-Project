@@ -27,12 +27,9 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
 
-
     def bounce(self):
         self.velocity[0] = -self.velocity[0]
         self.velocity[1] = randint(-4,4)
 
     def update_console(self, ping_pong):
         ping_pong.update_ball(self.velocity[0], self.velocity[1])
-
-

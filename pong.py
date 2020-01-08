@@ -8,8 +8,6 @@ g = ping_pong(0,30,700,500)
 
 pygame.init()
 
-
-
 # Define some colors
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -30,7 +28,6 @@ paddleB.rect.y = 200
 ball = Ball(WHITE,10,10)
 ball.rect.x = 345
 ball.rect.y = 195
-
 #This will be a list that will contain all the sprites we intend to use in our game.
 all_sprites_list = pygame.sprite.Group()
  
