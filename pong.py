@@ -4,7 +4,7 @@ from paddle import Paddle
 from ball import Ball
 from serial_comm import *
 
-g = ping_pong(0,30,700,500)
+#g = ping_pong(0,30,799,599)
 
 pygame.init()
 
@@ -13,7 +13,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
  
 # Open a new window
-size = (700, 500)
+size = (800, 600)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pong")
  
@@ -22,12 +22,12 @@ paddleA.rect.x = 0
 paddleA.rect.y = 200
  
 paddleB = Paddle(WHITE, 10, 100)
-paddleB.rect.x = 690
+paddleB.rect.x = 790
 paddleB.rect.y = 200
  
 ball = Ball(WHITE,10,10)
-ball.rect.x = 345
-ball.rect.y = 195
+ball.rect.x = 400
+ball.rect.y = 250
 #This will be a list that will contain all the sprites we intend to use in our game.
 all_sprites_list = pygame.sprite.Group()
  
@@ -47,7 +47,7 @@ scoreA = 0
 scoreB = 0
 
 # Start transmiting via RS232
-g.game_start()
+#g.game_start()
 reset_index = 0
 # -------- Main Program Loop -----------
 while carryOn:
@@ -60,49 +60,49 @@ while carryOn:
                      carryOn=False
  
 
-    if reset_index == 100:
-        g.clear()
-        g.draw_player0()
-        g.draw_player1()
-        g.draw_net()
-        g.draw_ball()
-        reset_index = 0
-    else:
-        reset_index += 1
+    # if reset_index == 100:
+    #     g.clear()
+    #     g.draw_player0()
+    #     g.draw_player1()
+    #     g.draw_net()
+    #     g.draw_ball()
+    #     reset_index = 0
+    # else:
+    #     reset_index += 1
 
     #Moving the paddles when the use uses the arrow keys (player A) or "W/S" keys (player B) 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         paddleA.moveUp(5)
-        g.update_player0(-5)
-        g.draw_player0()
+        # g.update_player0(-5)
+        # g.draw_player0()
     if keys[pygame.K_s]:
         paddleA.moveDown(5)
-        g.update_player0(5)
-        g.draw_player0()
+        # g.update_player0(5)
+        # g.draw_player0()
     if keys[pygame.K_UP]:
         paddleB.moveUp(5)
-        g.update_player1(-5)
-        g.draw_player1()
+        # g.update_player1(-5)
+        # g.draw_player1()
     if keys[pygame.K_DOWN]:
         paddleB.moveDown(5)
-        g.update_player1(5)
-        g.draw_player1()
+        # g.update_player1(5)
+        # g.draw_player1()
  
     # --- Game logic should go here
     all_sprites_list.update()
-    ball.update_console(g)
-    g.draw_ball()
+    # ball.update_console(g)
+    # g.draw_ball()
 
 
     #Check if the ball is bouncing against any of the 4 walls:
-    if ball.rect.x>=690:
+    if ball.rect.x>=790:
         scoreA+=1
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x<=0:
         scoreB+=1
         ball.velocity[0] = -ball.velocity[0]
-    if ball.rect.y>490:
+    if ball.rect.y>590:
         ball.velocity[1] = -ball.velocity[1]
     if ball.rect.y<0:
         ball.velocity[1] = -ball.velocity[1]     
@@ -115,7 +115,7 @@ while carryOn:
     # First, clear the screen to black. 
     screen.fill(BLACK)
     #Draw the net
-    pygame.draw.line(screen, WHITE, [349, 0], [349, 500], 5)
+    pygame.draw.line(screen, WHITE, [399, 0], [399, 600], 5)
     
     #Now let's draw all the sprites in one go. (For now we only have 2 sprites!)
     #ball.update_console(g)
@@ -124,9 +124,9 @@ while carryOn:
     #Display scores:
     font = pygame.font.Font(None, 74)
     text = font.render(str(scoreA), 1, WHITE)
-    screen.blit(text, (250,10))
+    screen.blit(text, (190,10))
     text = font.render(str(scoreB), 1, WHITE)
-    screen.blit(text, (420,10))
+    screen.blit(text, (590,10))
  
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()

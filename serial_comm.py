@@ -54,23 +54,27 @@ class SPI:
             print('Wrong packet size!')
             return -1
 
-        # Packet is a bytearray, no need to Process the packet into a string
-
         # Send the packet and read the graphical interface response
         self.comm.write(parameters)
         answer = b' '
-        while self.comm.inWaiting() == 0:
+
+        # Enter a long loop and wait for ACK
+        for loop in range(10000):
+            if self.comm.inWaiting() != 0:
+                break
             pass
 
-        if self.comm.inWaiting() > 0:
-            answer = self.comm.read(self.comm.inWaiting())
+        answer = self.comm.read(self.comm.inWaiting())
         
-        if answer == b'N':
-            print('Chyba pri prenosu!')
-            return -1
-        elif answer == b'A':
+        if answer == b'A':
             pass
             #do nothing, communication was succesful
+        elif answer == b'N':
+            print('Error: Wrong CRC!')
+            return -1
+        elif asnwer == b' ':
+            print('No acknowladge!')
+            return -2
         else:
             print('Unknown acknowladge! ' + str(answer))
             return -2
@@ -203,7 +207,7 @@ class ping_pong(RS232):
                         #self.ball_prev_pos[1],
                         int(self.ball_prev_pos[0]*self.relative_x),
                         int(self.ball_prev_pos[1]*self.relative_y),
-                        #it would be an ellipse on disproportunate constole settings, so fuck it
+                        #it would be an ellipse on disproportionate constole settings, so fuck it
                         int(self.relative_x*5),
                         BLACK)
 
@@ -213,7 +217,7 @@ class ping_pong(RS232):
                         #self.ball_pos[1],
                         int(self.ball_pos[0]*self.relative_x),
                         int(self.ball_pos[1]*self.relative_y),
-                        #it would be an ellipse on disproportunate constole settings, so fuck it
+                        #it would be an ellipse on disproportionate constole settings, so fuck it
                         int(self.relative_x*5),
                         WHITE)
 
